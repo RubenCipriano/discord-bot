@@ -4,7 +4,7 @@ const fs = require('fs');
 bot.commands = new Discord.Collection();
 const active = new Map();
 const config = {
-    token: "",
+    token: process.env.Token,
     prefix: "!",
     id:"322089201455595530",
     active: active, 
