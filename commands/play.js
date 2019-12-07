@@ -28,7 +28,10 @@ async function play(bot, ops, data) {
   data.dispatcher = await data.connection.playStream(ytdl(data.queue[0].url, {filter: 'audioonly'}));
   data.dispatcher.guildID = data.guildID;
   data.dispatcher.on('end',function() {
-    finish(bot,ops,this);
+      if(ops.loop == true)
+        play(bot,ops,data);
+      else
+        finish(bot,ops,this);
   });
 }
 
