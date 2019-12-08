@@ -31,12 +31,30 @@ async function play(bot, ops, data) {
       if(ops.loop == true)
         play(bot,ops,data);
       else
-        finish(bot,ops,this);
+        if(ops.loopqueue == true)
+          finishLoop(bot,ops,this);
+        else
+          finish(bot,ops,this);
   });
 }
 
 function finish(bot, ops, dispatcher) {
   let fetched = ops.active.get(dispatcher.guildID);
+  fetched.queue.shift();
+  if(fetched.queue.length > 0){
+    ops.active.set(dispatcher.guildID, fetched);
+    play(bot,ops,fetched);
+  } else {
+    ops.active.delete(dispatcher.guildID);
+    let vc = bot.guilds.get(dispatcher.guildID).me.voiceChannel;
+    if(vc) vc.leave();
+  }
+}
+
+function finishLoop(bot, ops, dispatcher) {
+  let fetched = ops.active.get(dispatcher.guildID);
+  console.log(fetched.queue);
+  fetched.queue.push(fetched.queue[0]);
   fetched.queue.shift();
   if(fetched.queue.length > 0){
     ops.active.set(dispatcher.guildID, fetched);
