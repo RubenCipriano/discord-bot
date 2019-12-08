@@ -9,6 +9,7 @@ const config = {
     id:"322089201455595530",
     active: active, 
     loop: false,
+    loopqueue: false,
 };
 let prefix = config.prefix;
 fs.readdir("./commands/", (err,files) => {
