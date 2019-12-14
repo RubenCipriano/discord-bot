@@ -37,9 +37,12 @@ bot.on('message', (msg) => {
     let messageArray = msg.content.split(" ");
     let cmd = messageArray[0];
     let args = messageArray.slice(1);
-    let commandFile = bot.commands.get(cmd.slice(prefix.length));
-    if(commandFile) commandFile.run (bot,msg,args,config);
-    if(cmd.startsWith(config.prefix)) msg.delete(1000);
+    if(cmd.startsWith(config.prefix))
+    {
+        let commandFile = bot.commands.get(cmd.slice(prefix.length));
+        if(commandFile) commandFile.run (bot,msg,args,config);
+        msg.delete(1000);
+    }
 })
 
 bot.login(config.token);
