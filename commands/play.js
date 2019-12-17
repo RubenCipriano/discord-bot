@@ -22,7 +22,7 @@ module.exports.run = async(bot,message,args,ops) => {
     ops.active.set(message.guild.id,data);
 }
 
-async function play(bot, ops, data) {
+function play(bot, ops, data) {
   console.log('Song!\n' + data.queue[0].url);
   bot.channels.get(data.queue[0].announceChannel);
   if(ops.loop == false && ops.loopqueue == false)
