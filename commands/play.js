@@ -27,7 +27,7 @@ function play(bot, ops, data) {
   bot.channels.get(data.queue[0].announceChannel);
   if(ops.loop == false && ops.loopqueue == false)
       message.channel.send(`Está sendo reproduzido: ${data.queue[0].songTitle} | Pedido por: ${data.queue[0].requester}`).then(msg => msg.delete(10000)).catch;
-  data.dispatcher = await data.connection.playStream(ytdl(data.queue[0].url, {filter: 'audioonly'}));
+  data.dispatcher = data.connection.playStream(ytdl(data.queue[0].url, {filter: 'audioonly'}));
   data.dispatcher.guildID = data.guildID;
   data.dispatcher.on('end',function() {
       if(ops.loop == true)
