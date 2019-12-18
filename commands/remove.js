@@ -1,5 +1,5 @@
 module.exports.run = async(bot,message,args,config) => {
-      if(args[0] != undefined && args[0] > 0)
+      if(args[0] != undefined && args[0] >= 0)
       {
             let fetched = config.active.get(message.guild.id);
             let songTitle = fetched.queue[args[0]].songTitle;
