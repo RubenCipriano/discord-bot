@@ -4,7 +4,7 @@ module.exports.run = async(bot,message,args,ops) => {
         if(!args[0]) return message.channel.send('Indique um Video para reproduzir!').then(msg => msg.delete(10000)).catch();
         let val = await ytdl.validateURL(args[0]);
         if(!val) ('Introduza um url **válido**').then(msg => msg.delete(10000)).catch();
-        let info = await(ytdl.getInfo(args[0]));
+        let info = await(ytdl.getInfo(args[0])).catch(return message.channel.send("Ocorreu um erro ao tentar achar a Informação da Musica!"));
         let data = ops.active.get(message.guild.id) || {};
         if(!data.connection) data.connection = await message.member.voiceChannel.join();
         if(!data.queue) data.queue = [];
@@ -26,14 +26,7 @@ module.exports.run = async(bot,message,args,ops) => {
       bot.channels.get(data.queue[0].announceChannel);
       if(ops.loop == false && ops.loopqueue == false)
           message.channel.send(`Está sendo reproduzido: ${data.queue[0].songTitle} | Pedido por: ${data.queue[0].requester}`).then(msg => msg.delete(10000)).catch;
-            try
-            {
-              data.dispatcher = data.connection.playStream(ytdl(data.queue[0].url, {filter: 'audioonly'}));
-            }
-            catch
-            {
-             return message.channel.send("Não Foi possivel Adicionar ou correr esta musica!");       
-            }
+      data.dispatcher = data.connection.playStream(ytdl(data.queue[0].url, {filter: 'audioonly'}));
       data.dispatcher.guildID = data.guildID;
       data.dispatcher.on('end',function() {
           if(ops.loop == true)
