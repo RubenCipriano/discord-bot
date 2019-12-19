@@ -26,7 +26,14 @@ module.exports.run = async(bot,message,args,ops) => {
       bot.channels.get(data.queue[0].announceChannel);
       if(ops.loop == false && ops.loopqueue == false)
           message.channel.send(`Está sendo reproduzido: ${data.queue[0].songTitle} | Pedido por: ${data.queue[0].requester}`).then(msg => msg.delete(10000)).catch;
-      data.dispatcher = data.connection.playStream(ytdl(data.queue[0].url, {filter: 'audioonly'}));
+            try
+            {
+              data.dispatcher = data.connection.playStream(ytdl(data.queue[0].url, {filter: 'audioonly'}));
+            }
+            catch
+            {
+             return message.channel.send("Não Foi possivel Adicionar ou correr esta musica!");       
+            }
       data.dispatcher.guildID = data.guildID;
       data.dispatcher.on('end',function() {
           if(ops.loop == true)
