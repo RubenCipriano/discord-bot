@@ -1,3 +1,4 @@
+const active = new Map();
 module.exports.run = async(bot,message,args,config) => {
     if(!message.member.voiceChannel) return message.channel.send('Por favor entre em uma sala de audio!').then(msg => msg.delete(10000)).catch();
     if(!message.guild.me.voiceChannel) return message.channel.send('O Bot não está conectado a um canal de audio!').then(msg => msg.delete(10000)).catch();
