@@ -23,7 +23,7 @@ module.exports.run = async(bot,message,args,config) => {
         .setThumbnail(bot.user.displayAvatarURL)
         .setTimestamp()
         .setDescription(`Todos os comandos estão listados em baixo!\nO prefixo do bot é ${config.prefix}`)
-        .addField("Comandos:", "`` play `` `` queue ``")
+        .addField("Comandos:", "`` clear `` `` defaultrole `` `` eval `` `` help `` `` leave `` `` loop `` `` loopqueue `` `` ping `` `` play `` `` queue `` `` reload `` `` remove `` `` volume ``")
         .setFooter("Rub1 Bot",bot.user.displayAvatarURL)
         message.channel.send(embed).then(m => m.delete(10000)).catch();
         message.author.send(embed);
