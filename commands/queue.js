@@ -13,4 +13,6 @@ module.exports.run = async(bot,message,args,ops) => {
 
 module.exports.help = {
   name: 'queue',
+  description: "Corre a queue das musicas",
+  usage: `!queue`,
 };

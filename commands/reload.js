@@ -24,5 +24,6 @@ module.exports.run = async(bot,message,args,config) => {
 
 module.exports.help = {
     name: 'reload',
-    description:'Reseta todos os comandos disponiveis para o Bot'
+    description:'Reseta todos os comandos disponiveis para o Bot',
+    usage: `!reload`,
 };

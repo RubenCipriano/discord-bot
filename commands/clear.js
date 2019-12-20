@@ -10,4 +10,6 @@ module.exports.run = async(bot,message,args,config) => {
 
 module.exports.help = {
     name: 'clear',
+    description: "Comando de Apagar as mensagens!",
+    usage: `!clear`,
 };

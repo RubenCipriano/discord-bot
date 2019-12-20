@@ -10,4 +10,6 @@ module.exports.run = async(bot,message,args,ops) => {
 
 module.exports.help = {
   name: 'volume',
+  description: "Define o volume do bot",
+  usage: `!volume [Numero]`,
 };

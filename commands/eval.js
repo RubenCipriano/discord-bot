@@ -15,4 +15,6 @@ module.exports.run = async(bot,message,args,config) => {
 
 module.exports.help = {
     name: 'eval',
+    description: "Corre um conjunto de comandos do JavaScript",
+    usage: `!eval <JsCode>`,
 };

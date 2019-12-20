@@ -10,5 +10,5 @@ module.exports.run = async(bot,message,args,config) => {
 module.exports.help = {
     name: 'ping',
     description:'Comando Ping para ver a latencia entre Bot-Server e API',
-    usage:'<prefix>**ping**'
+    usage:'!ping'
 };

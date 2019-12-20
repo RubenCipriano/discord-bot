@@ -11,4 +11,6 @@ module.exports.run = async(bot,message,args,config) => {
 
 module.exports.help = {
 name: 'leave',
+description: "Bot Sai do voiceChannel",
+usage: `!leave`,
 };

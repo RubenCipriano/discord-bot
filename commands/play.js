@@ -68,4 +68,6 @@ function finishLoop(bot, ops, dispatcher) {
 
 module.exports.help = {
   name: 'play',
+  description: "Corre uma musica do Youtube",
+  usage: `!play <URL>`,
 };
