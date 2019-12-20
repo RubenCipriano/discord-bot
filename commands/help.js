@@ -10,6 +10,7 @@ module.exports.run = async(bot,message,args,config) => {
             var SHembed = new Discord.RichEmbed()
             .setColor('#ff0000')
             .setAuthor('Rub1Bot', message.guild.iconURL)
+            .setThumbnail(bot.user.displayAvatarURL)
             .setDescription(`O Prefixo do bot é: ${config.prefix}\n\n**Command:** ${command.help.name}\n**Description:** ${command.help.description || "Não definido"}\n**Usage:** ${command.help.usage || "Não definido"}\n **Acessible by:** ${command.help.acessibleby || "Membros"}`)
             message.channel.send(SHembed).then(m => m.delete(10000)).catch();
         }
