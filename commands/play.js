@@ -24,7 +24,8 @@ module.exports.run = async(bot,message,args,ops) => {
 
 async function play(bot, ops, data) {
   console.log('Song!\n' + data.queue[0].url);
-  bot.channels.get(data.queue[0].announceChannel).send(`Está sendo reproduzido: ${data.queue[0].songTitle} | Pedido por: ${data.queue[0].requester}`).then(msg => msg.delete(10000)).catch;
+  if(ops.loop == false && ops.loopqueue == false)
+    bot.channels.get(data.queue[0].announceChannel).send(`Está sendo reproduzido: ${data.queue[0].songTitle} | Pedido por: ${data.queue[0].requester}`).then(msg => msg.delete(10000)).catch;
   data.dispatcher = await data.connection.playStream(ytdl(data.queue[0].url, {filter: 'audioonly'}));
   data.dispatcher.guildID = data.guildID;
   data.dispatcher.on('end',function() {
