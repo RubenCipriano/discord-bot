@@ -2,6 +2,10 @@ const ytdl = require('ytdl-core');
 module.exports.run = async(bot,message,args,ops) => {
     if(!message.member.voiceChannel) return message.channel.send('Não se encontra em um canal de Audio!').then(msg => msg.delete(10000)).catch();
     if(!args[0]) return message.channel.send('Indique um Video para reproduzir!').then(msg => msg.delete(10000)).catch();
+    if(!/[^a-zA-Z0-9]/.test(args[0])) {
+      let commandFile = require("./search.js");
+      commandFile.run(bot,message,args,ops);
+    }
     let val = await ytdl.validateURL(args[0]);
     if(!val) ('Introduza um url **válido**').then(msg => msg.delete(10000)).catch();
     let info = await(ytdl.getInfo(args[0]));
