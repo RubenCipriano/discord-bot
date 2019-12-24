@@ -6,24 +6,27 @@ module.exports.run = async(bot,message,args,ops) => {
       let commandFile = require("./search.js");
       commandFile.run(bot,message,args,ops);
     }
-    let val = await ytdl.validateURL(args[0]);
-    if(!val) ('Introduza um url **válido**').then(msg => msg.delete(10000)).catch();
-    let info = await(ytdl.getInfo(args[0]));
-    let data = ops.active.get(message.guild.id) || {};
-    if(!data.connection) data.connection = await message.member.voiceChannel.join();
-    if(!data.queue) data.queue = [];
-    data.guildID = message.guild.id;
-    data.queue.push({
-      songTitle: info.title,
-      requester: message.author.tag,
-      url: args[0],
-      announceChannel: message.channel.id
-    });
-    if(!data.dispatcher) play(bot, ops, data);
-    else {
-      message.channel.send(`Adicionado á Queue: ${info.title} | Pedido por: ${message.author.tag}`).then(msg => msg.delete(10000)).catch;
+    else
+    {
+        let val = await ytdl.validateURL(args[0]);
+        if(!val) eturn message.channel.send('Introduza um url **válido**').then(msg => msg.delete(10000)).catch();
+        let info = await(ytdl.getInfo(args[0]));
+        let data = ops.active.get(message.guild.id) || {};
+        if(!data.connection) data.connection = await message.member.voiceChannel.join();
+        if(!data.queue) data.queue = [];
+        data.guildID = message.guild.id;
+        data.queue.push({
+          songTitle: info.title,
+          requester: message.author.tag,
+          url: args[0],
+          announceChannel: message.channel.id
+        });
+        if(!data.dispatcher) play(bot, ops, data);
+        else {
+          message.channel.send(`Adicionado á Queue: ${info.title} | Pedido por: ${message.author.tag}`).then(msg => msg.delete(10000)).catch;
+        }
+        ops.active.set(message.guild.id,data);
     }
-    ops.active.set(message.guild.id,data);
 }
 
 async function play(bot, ops, data) {
