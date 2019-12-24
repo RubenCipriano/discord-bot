@@ -9,7 +9,7 @@ module.exports.run = async(bot,message,args,ops) => {
     else
     {
         let val = await ytdl.validateURL(args[0]);
-        if(!val) eturn message.channel.send('Introduza um url **válido**').then(msg => msg.delete(10000)).catch();
+        if(!val) return message.channel.send('Introduza um url **válido**').then(msg => msg.delete(10000)).catch();
         let info = await(ytdl.getInfo(args[0]));
         let data = ops.active.get(message.guild.id) || {};
         if(!data.connection) data.connection = await message.member.voiceChannel.join();
