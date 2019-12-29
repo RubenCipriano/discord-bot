@@ -30,6 +30,13 @@ fs.readdir("./commands/", (err,files) => {
 bot.on('ready', async () => {
     console.log('Bot Criado com sucesso! Bot está a ser usado em: ' + bot.guilds.size + ' servidores!');
     bot.user.setActivity('Alpha 1.0', {type: 'Versão:'});
+    bot.user.setStatus('available')
+    bot.user.setPresence({
+        game: {
+            name: `!help in ${bot.guilds.size} server(s)`,
+            type: "LISTENING"
+        }
+    });
 })
 
 bot.on("guildMemberAdd", (member) => {
