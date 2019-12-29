@@ -15,7 +15,6 @@ module.exports.run = async(bot,message,args,config) => {
             let props = require(`./${f}`);
             console.log(`${f} Carregado`);
             bot.commands.set(props.help.name, props);
-            message.channel.send(`Foi Resetado o Comando: ${f}!`).then(msg => msg.delete(2000)).catch;
         });
     })
     config.active.delete();

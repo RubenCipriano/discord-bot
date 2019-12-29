@@ -9,9 +9,9 @@ module.exports.run = async(bot,message,args,config) => {
             resp += `**|${parseInt(i)+1}|:** \`${videos[i].title}\`\n`;
         }
        resp += `\n***Escolha um numero entre*** \`1-${videos.length}\``;
-       message.channel.send(resp).then(msg => msg.delete(10000)).catch();
+       message.channel.send(resp).then(msg => msg.delete(5000)).catch();
        const filter = m => !isNaN(m.content) && m.content < videos.length+1 && m.content > 0;
-       const collector = message.channel.createMessageCollector(filter);
+       const collector = message.channel.createMessageCollector(filter, { time: 5000 });
        collector.videos = videos;
        collector.once('collect', function(m) {
            let commandFile = require("./play.js");

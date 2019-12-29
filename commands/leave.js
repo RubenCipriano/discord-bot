@@ -5,7 +5,7 @@ module.exports.run = async(bot,message,args,config) => {
   config.active.delete(config.active.guildID);
   let vc = message.guild.me.voiceChannel;
   if(vc) vc.leave();
-  message.channel.send('Sai do Canal de Voz, Obrigado!').then(msg => msg.delete(10000)).catch();
+  message.channel.send('Bye Bye!').then(msg => msg.delete(10000)).catch();
 }
 
 

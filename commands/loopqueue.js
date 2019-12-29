@@ -1,13 +1,13 @@
 module.exports.run = async(bot,message,args,ops) => {
-    if(ops.loopqueue == false)
-    {
-        ops.loopqueue = true;
-        return message.channel.send(":white_check_mark: Foi ativado o Loop da Queue!").then(msg => msg.delete(1000)).catch();
-    }
-    if(ops.loopqueue == true)
-    {
-        ops.loopqueue = false;
-        return message.channel.send("❌ Foi desativado o Loop da Queue!").then(msg => msg.delete(1000)).catch();
+    let fetched = ops.active.get(message.guild.id);
+    if(!fetched) return message.channel.send('No momento não existem musicas a tocar!').then(msg => msg.delete(10000)).catch;
+    if(!fetched.loop || fetched.loop == false){
+        fetched.loopqueue = true;
+        return message.channel.send(`✅ Foi ativado o loop da Queue`).then(msg => msg.delete(1000)).catch();
+    } 
+    else {
+        fetched.loopqueue = false;
+        return message.channel.send(`❌ Foi desativado o loop da Queue`).then(msg => msg.delete(1000)).catch();
     }
 }
 
