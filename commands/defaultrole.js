@@ -17,7 +17,7 @@ module.exports.run = async(bot,message,args,ops) => {
   }
   if(args && message.author.id == ops.id)
   {
-    let role = message.guild.roles.find("name",args);
+    let role = message.guild.roles.find(x => x.name === args);
     if(role)
     {
       data.defaultRole = role;
