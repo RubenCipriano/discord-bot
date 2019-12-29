@@ -3,13 +3,13 @@ const bot = new Discord.Client();
 const fs = require('fs');
 bot.commands = new Discord.Collection();
 const active = new Map();
+const Role = new Map();
 const config = {
     token: process.env.Token,
     prefix: "!",
     id:"322089201455595530",
     active: active, 
-    loop: false,
-    loopqueue: false,
+    defaultRole: Role,
 };
 let prefix = config.prefix;
 fs.readdir("./commands/", (err,files) => {
@@ -30,6 +30,12 @@ fs.readdir("./commands/", (err,files) => {
 bot.on('ready', async () => {
     console.log('Bot Criado com sucesso! Bot está a ser usado em: ' + bot.guilds.size + ' servidores!');
     bot.user.setActivity('Alpha 1.0', {type: 'Versão:'});
+})
+
+bot.on("guildMemberAdd", (member) => {
+    let role = config.defaultRole.get(member.guild.id);
+    if(!role) return;
+    else member.addRole(role.defaultRole);
 })
 
 bot.on('message', (msg) => {
