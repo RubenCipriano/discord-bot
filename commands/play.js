@@ -13,7 +13,7 @@ module.exports.run = async(bot,message,args,ops) => {
       if(!val) return message.channel.send('Introduza um url **válido**').then(msg => msg.delete(10000)).catch();
       let info = await(ytdl.getInfo(args[0]));
       let data = ops.active.get(message.guild.id) || {};
-      if(!data.connection) data.connection = message.member.voiceChannel.join();
+      if(!data.connection) data.connection = await message.member.voiceChannel.join();
       if(!data.queue) data.queue = [];
       data.guildID = message.guild.id;
       data.queue.push({
@@ -53,7 +53,7 @@ module.exports.run = async(bot,message,args,ops) => {
 
 async function play(bot, ops, data) {
   console.log('Song!\n' + data.queue[0].url);
-  data.dispatcher = await data.connection.play(ytdl(data.queue[0].url, {filter: 'audioonly'}));
+  data.dispatcher = await data.connection.playStream(ytdl(data.queue[0].url, {filter: 'audioonly'}));
   data.dispatcher.guildID = data.guildID;
   data.dispatcher.on('end',function() {
       if(data.loop == true)
