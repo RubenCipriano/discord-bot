@@ -13,7 +13,7 @@ module.exports.run = async(bot,message,args,ops) => {
       if(!val) return message.channel.send('Introduza um url **válido**').then(msg => msg.delete(10000)).catch();
       let info = await(ytdl.getInfo(args[0]));
       let data = ops.active.get(message.guild.id) || {};
-      if(!data.connection) data.connection = await message.member.voiceChannel.join();
+      if(!data.connection) data.connection = message.member.voiceChannel.join();
       if(!data.queue) data.queue = [];
       data.guildID = message.guild.id;
       data.queue.push({
