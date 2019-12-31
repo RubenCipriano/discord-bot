@@ -53,7 +53,7 @@ module.exports.run = async(bot,message,args,ops) => {
 
 async function play(bot, ops, data) {
   console.log('Song!\n' + data.queue[0].url);
-  data.dispatcher = await data.connection.playStream(ytdl(data.queue[0].url, {filter: 'audioonly'}));
+  data.dispatcher = await data.connection.play(ytdl(data.queue[0].url, {filter: 'audioonly'}));
   data.dispatcher.guildID = data.guildID;
   data.dispatcher.on('end',function() {
       if(data.loop == true)
