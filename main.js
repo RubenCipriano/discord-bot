@@ -39,6 +39,18 @@ bot.on('ready', async () => {
     });
 })
 
+client.on("guildCreate", guild => {
+    console.log('Bot Adicionado em um servidor! Bot está a ser usado em: ' + bot.guilds.size + ' servidores!');
+    bot.user.setActivity('Alpha 1.0', {type: 'Versão:'});
+    bot.user.setStatus('available')
+    bot.user.setPresence({
+        game: {
+            name: `!help in ${bot.guilds.size} server(s)`,
+            type: "LISTENING"
+        }
+    });
+}
+
 bot.on("guildMemberAdd", (member) => {
     let role = config.defaultRole.get(member.guild.id);
     if(!role) return;
