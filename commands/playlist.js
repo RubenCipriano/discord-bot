@@ -1,6 +1,5 @@
 const fs = require('fs');
 const ytdl = require('ytdl-core');
-const ms = require('ms');
 let ServerPlaylist = require('../playlists.json');
 module.exports.run = async(bot,message,args,ops) => {
     let fetched = ops.active.get(message.guild.id);
