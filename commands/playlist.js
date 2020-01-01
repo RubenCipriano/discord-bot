@@ -19,6 +19,7 @@ module.exports.run = async(bot,message,args,ops) => {
     fs.writeFile("./playlists.json", JSON.stringify(ServerPlaylist), (err) => {
         if(err)console.log(err);
     });
+    return message.channel.send(`Alteramos a Playlist definida por Default!`).then(msg => msg.delete(5000)).catch();
 }
 
 module.exports.help = {
