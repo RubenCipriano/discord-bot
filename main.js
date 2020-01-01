@@ -39,7 +39,7 @@ bot.on('ready', async () => {
     });
 })
 
-client.on("guildCreate", guild => {
+bot.on("guildCreate", guild => {
     console.log('Bot Adicionado em um servidor! Bot está a ser usado em: ' + bot.guilds.size + ' servidores!');
     bot.user.setActivity('Alpha 1.0', {type: 'Versão:'});
     bot.user.setStatus('available')
