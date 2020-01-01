@@ -4,14 +4,8 @@ const ServerPlayList = require('../playlists.json');
 let PlayListSV = info = null;
 module.exports.run = async(bot,message,args,ops) => {
     if(!message.member.voiceChannel) return message.channel.send('Não se encontra em um canal de Audio!').then(msg => msg.delete(10000)).catch();
-    if(!args[0]) {
-      try {
-        PlayListSV = ServerPlayList[message.guild.id];
-      }
-      catch {
-        return message.channel.send(`Não Existem Musicas no ficheiro da Playlist, sempre podes adicionar com o comando playlist`);
-      }
-    }
+    if(!args[0]) PlayListSV = ServerPlayList[message.guild.id];
+    if(!args[0] && !PlayListSV) return message.channel.send(`Não existe uma Playlist Default!`).then(msg => msg.delete(5000)).catch();
     if(!/[^a-zA-Z0-9]/.test(args[0]) && args[0]) {
       let commandFile = require("./search.js");
       commandFile.run(bot,message,args,ops);
