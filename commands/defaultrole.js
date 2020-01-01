@@ -1,5 +1,6 @@
 const Discord = require('discord.js');
 module.exports.run = async(bot,message,args,ops) => {
+  if(!message.member.hasPermission('KICK_MEMBERS')) return message.channel.send(`Não tens permissão para fazer isto!`).then(msg => msg.delete(5000)).catch();
   let data = ops.defaultRole.get(message.guild.id) || {};
   args = args.join(" ");
   if(!data.defaultRole && !args) return message.channel.send(`Não existe uma Role Default Neste Servidor!`).then(m => m.delete(10000)).catch();
