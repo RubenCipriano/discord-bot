@@ -49,7 +49,7 @@ client.on("guildCreate", guild => {
             type: "LISTENING"
         }
     });
-}
+})
 
 bot.on("guildMemberAdd", (member) => {
     let role = config.defaultRole.get(member.guild.id);
