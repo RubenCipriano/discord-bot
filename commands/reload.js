@@ -1,6 +1,7 @@
 const discord = require('discord.js');
 const fs = require('fs');
 module.exports.run = async(bot,message,args,config) => {
+    if(message.author.id != config.id) return message.channel.send("Não tens permissão para fazer isto").then(msg=>msg.delete(5000)).catch();
     console.log("Comando Reload Selecionado!");
     if(message.author.id != config.id) return message.channel.send('Não tens as permissões necessárias').then(msg => {msg.delete(10000)}).catch;
     fs.readdir("./commands", (err,files) => {
