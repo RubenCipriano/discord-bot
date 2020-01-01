@@ -1,27 +1,50 @@
 const ytdl = require('ytdl-core');
 const Discord = require('discord.js');
+const ServerPlayList = require('../playlists.json');
+let PlayListSV = info = null;
 module.exports.run = async(bot,message,args,ops) => {
     if(!message.member.voiceChannel) return message.channel.send('Não se encontra em um canal de Audio!').then(msg => msg.delete(10000)).catch();
-    if(!args[0]) return message.channel.send('Indique um Video para reproduzir!').then(msg => msg.delete(10000)).catch();
-    if(!/[^a-zA-Z0-9]/.test(args[0])) {
+    if(!args[0]) {
+      try {
+        PlayListSV = ServerPlayList[message.guild.id];
+      }
+      catch {
+        return message.channel.send(`Não Existem Musicas no ficheiro da Playlist, sempre podes adicionar com o comando playlist`);
+      }
+    }
+    if(!/[^a-zA-Z0-9]/.test(args[0]) && args[0]) {
       let commandFile = require("./search.js");
       commandFile.run(bot,message,args,ops);
     }
     else
     {
-      let val = await ytdl.validateURL(args[0]);
-      if(!val) return message.channel.send('Introduza um url **válido**').then(msg => msg.delete(10000)).catch();
-      let info = await(ytdl.getInfo(args[0]));
+      if(args[0]){ 
+        let val = await ytdl.validateURL(args[0]);
+        if(!val) return message.channel.send('Introduza um url **válido**').then(msg => msg.delete(10000)).catch();
+        info = await(ytdl.getInfo(args[0]));
+      }
       let data = ops.active.get(message.guild.id) || {};
       if(!data.connection) data.connection = await message.member.voiceChannel.join();
       if(!data.queue) data.queue = [];
       data.guildID = message.guild.id;
-      data.queue.push({
-        songTitle: info.title,
-        requester: message.author.tag,
-        url: args[0],
-        announceChannel: message.channel.id
-      });
+      if(PlayListSV) {
+        for(var i = 0; i < PlayListSV.Songs.length; i++){
+          data.queue.push({
+            songTitle: PlayListSV.Songs[i].songTitle,
+            requester: PlayListSV.Songs[i].requester,
+            url: PlayListSV.Songs[i].url,
+            announceChannel: PlayListSV.Songs[i].announceChannel
+          });
+        }
+      }
+      else {
+        data.queue.push({
+          songTitle: info.title,
+          requester: message.author.tag,
+          url: args[0],
+          announceChannel: message.channel.id
+        });
+      }
       if(!data.dispatcher) {
         let embed = new Discord.RichEmbed()
         .setColor('#ff0000')
@@ -29,7 +52,7 @@ module.exports.run = async(bot,message,args,ops) => {
         .setThumbnail(bot.user.displayAvatarURL)
         .setTimestamp()
         .setDescription(`Está sendo Reproduzido:`)
-        .addField("Titulo:", `${info.title}`)
+        .addField("Titulo:", `${data.queue[0].songTitle}`)
         .addField("A pedido de:", `${message.author.tag}`)
         .setFooter("Rub1 Bot",bot.user.displayAvatarURL)
         message.channel.send(embed).then(m => m.delete(30000)).catch();
