@@ -21,7 +21,7 @@ module.exports.run = async(bot,message,args,ops) => {
       if(!data.connection) data.connection = await message.member.voiceChannel.join();
       if(!data.queue) data.queue = [];
       data.guildID = message.guild.id;
-      if(PlayListSV) {
+      if(PlayListSV && !args[0]) {
         for(var i = 0; i < PlayListSV.Songs.length; i++){
           data.queue.push({
             songTitle: PlayListSV.Songs[i].songTitle,
