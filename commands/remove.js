@@ -9,7 +9,7 @@ module.exports.run = async(bot,message,args,config) => {
       }
       else
       {
-            for(var i = 0; i < feched.queue.lenght; i++) {
+            for(var i = 0; i < feched.queue.lenght - 1; i++) {
                 fetched.queue.splice(0);   
             }
           return message.channel.send("Removemos a Playlist Toda!").then(msg=> msg.delete(10000)).catch;
