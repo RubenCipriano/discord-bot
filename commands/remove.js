@@ -11,7 +11,6 @@ module.exports.run = async(bot,message,args,config) => {
       {
            for(var i = 0; i < fetched.queue.length > 0 ;i++)
                fetched.queue.shift();
-          config.active.delete(message.guild.id);
           let vc = bot.guilds.get(message.guild.id).me.voiceChannel;
           if(vc) vc.leave();
           return message.channel.send("Removemos a Playlist Toda!").then(msg=> msg.delete(10000)).catch;
