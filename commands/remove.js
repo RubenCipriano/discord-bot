@@ -9,12 +9,8 @@ module.exports.run = async(bot,message,args,config) => {
       }
       else
       {
-          config.active.delete(config.active.guildID);
-           let vc = message.guild.me.voiceChannel;
-           if(vc) vc.leave();
-           for(var i = 0; i < fetched.queue.lenght;i++)
-               fetched.queue.splice(0);
-           config.active.set(message.guildID,fetched);
+           for(var i = 0; i < fetched.queue.length > 0 ;i++)
+               fetched.queue.shift;
            return message.channel.send("Removemos a Playlist Toda!").then(msg=> msg.delete(10000)).catch;
       }
 }
