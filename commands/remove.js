@@ -10,7 +10,7 @@ module.exports.run = async(bot,message,args,config) => {
       else
       {
            for(var i = 0; i < fetched.queue.length > 0 ;i++)
-               fetched.queue.shift;
+               fetched.queue.shift();
            return message.channel.send("Removemos a Playlist Toda!").then(msg=> msg.delete(10000)).catch;
       }
 }
