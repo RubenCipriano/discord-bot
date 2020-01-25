@@ -12,7 +12,7 @@ module.exports.run = async(bot,message,args,config) => {
             for(var i = 0; i < fetched.queue.lenght; i++) {
                 fetched.queue.splice(0);
            }
-           let vc = bot.guilds.get(dispatcher.guildID).me.voiceChannel;
+           let vc = bot.guilds.get(message.guildID).me.voiceChannel;
            if(vc) vc.leave();
            return message.channel.send("Removemos a Playlist Toda!").then(msg=> msg.delete(10000)).catch;
       }
