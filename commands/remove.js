@@ -9,10 +9,10 @@ module.exports.run = async(bot,message,args,config) => {
       }
       else
       {
+           fetched.queue = undefined;
            config.active.delete(config.active.guildID);
            let vc = message.guild.me.voiceChannel;
            if(vc) vc.leave();
-           fetched.queue = undefined;
            return message.channel.send("Removemos a Playlist Toda!").then(msg=> msg.delete(10000)).catch;
       }
 }
