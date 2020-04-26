@@ -12,13 +12,17 @@ const Role = new Map();
 
 let config = require('./config.json');
 
-config = {
-    token: process.env.Token,
-    prefix: "-",
-    id:"322089201455595530",
-    active: active, 
-    defaultRole: Role,
-};
+if(config.prefix == null)
+{
+    config = {
+        token: process.env.Token,
+        prefix: "-",
+        id:"322089201455595530",
+        active: active, 
+        defaultRole: Role,
+    };
+}
+
 
 let prefix = config.prefix;
 
