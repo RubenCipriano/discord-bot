@@ -49,7 +49,7 @@ bot.on('ready', async () => {
     bot.user.setStatus('available')
     bot.user.setPresence({
         game: {
-            name: `!help in ${bot.guilds.size} server(s)`,
+            name: `${prefix}help in ${bot.guilds.size} server(s)`,
             type: "LISTENING"
         }
     });
@@ -61,7 +61,7 @@ bot.on("guildCreate", guild => {
     bot.user.setStatus('available')
     bot.user.setPresence({
         game: {
-            name: `!help in ${bot.guilds.size} server(s)`,
+            name: `${prefix}help in ${bot.guilds.size} server(s)`,
             type: "LISTENING"
         }
     });
