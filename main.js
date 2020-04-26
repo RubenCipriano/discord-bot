@@ -1,17 +1,29 @@
 const Discord = require('discord.js');
+
 const bot = new Discord.Client();
+
 const fs = require('fs');
+
 bot.commands = new Discord.Collection();
+
 const active = new Map();
+
 const Role = new Map();
-const config = {
+
+let config = require('./config.json');
+
+config = {
     token: process.env.Token,
-    prefix: "!",
+    prefix: "-",
     id:"322089201455595530",
     active: active, 
     defaultRole: Role,
 };
+
 let prefix = config.prefix;
+
+console.log(config);
+
 fs.readdir("./commands/", (err,files) => {
     if(err) console.log(err);
     let jsfile = files.filter(f => f.split('.').pop() == 'js')
