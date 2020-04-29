@@ -11,7 +11,7 @@ const active = new Map();
 const Role = new Map();
 
 const config = {
-    token: "NjU1NTA1MzMyNjg0MDYyNzIw.Xqm0gQ.xx8hG_ZHgCZazIXYed7vbnkpmA8",
+    token: process.env.Token,
     prefix: "!",
     id:"322089201455595530",
     active: active, 
