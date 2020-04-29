@@ -11,7 +11,6 @@ const active = new Map();
 const Role = new Map();
 
 const config = {
-    token: process.env.Token,
     prefix: "!",
     id:"322089201455595530",
     active: active, 
@@ -91,4 +90,4 @@ bot.on('message', (msg) => {
     }
 })
 
-bot.login(config.token);
+bot.login(process.env.Token);
