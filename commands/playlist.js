@@ -1,30 +1,54 @@
-const fs = require('fs');
-const ytdl = require('ytdl-core');
-let ServerPlaylist = require('../playlists.json');
-module.exports.run = async(bot,message,args,ops) => {
-    if(!message.member.hasPermission('KICK_MEMBERS')) return message.channel.send(`Não tens permissão para fazer isto!`).then(msg => msg.delete(5000)).catch();
-    let fetched = ops.active.get(message.guild.id);
-    if(!fetched) return message.channel.send('No momento não existem musicas a tocar!').then(msg => msg.delete(10000)).catch;
-    let queue = fetched.queue;
-    ServerPlaylist[message.guild.id] = {
-        Songs: new Array(), 
+const PlaylistModel = require('../models/Playlist');
+
+module.exports.run = async(bot,message,args,config) => {
+    let server = {
+        guild: message.guild.id,
     };
-    for(var i = 0; i < queue.length; i++) {
-        ServerPlaylist[message.guild.id].Songs.push({
-            songTitle: queue[i].songTitle,
-            requester: queue[i].requester,
-            url: queue[i].url,
-            announceChannel: queue[i].announceChannel
-        });
+
+    if (message.member.hasPermission("MANAGE_MESSAGES") && config.active.get(message.guild.id) != null) {
+
+        let data = {
+            guild: message.guild.id,
+            songs: config.active.get(message.guild.id).queue
+        }
+
+        let serverPlaylist = await PlaylistModel.findOne(server);
+
+        if(serverPlaylist == null)
+        {
+            const Playlist = new PlaylistModel(data);
+
+            Playlist.save((err) => {
+                if(err)
+                    console.log(err);
+                else
+                    console.log("Created Playlist");
+            });
+        }
+        else
+        {
+            serverPlaylist.updateOne(data, (err) => {
+                if(err)
+                    console.log(err);
+                else
+                    console.log("Updated Playlist");
+            });
+            serverPlaylist.save();
+        }
+    } else {
+        let queue = await PlaylistModel.findOne(server);
+        let msg = `__**Playlist Default:**__\n`;
+        for(var i = 0; i < queue.songs.length; i++) {
+            msg += `**${queue.songs[i].songTitle}** \n`;
+        }
+        message.channel.send(msg).then(msg => msg.delete(10000)).catch;
     }
-    fs.writeFile("./playlists.json", JSON.stringify(ServerPlaylist), (err) => {
-        if(err)console.log(err);
-    });
-    return message.channel.send(`Alteramos a Playlist definida por Default!`).then(msg => msg.delete(5000)).catch();
 }
 
+
+
 module.exports.help = {
-  name: 'playlist',
-  description: "Comando para mostrar playlists!",
-  usage: `!playlist`,
+    name: 'playlist',
+    description: "Comando de Apagar as mensagens!",
+    usage: `!playlist`,
 };

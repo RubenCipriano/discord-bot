@@ -4,6 +4,10 @@ const bot = new Discord.Client();
 
 const fs = require('fs');
 
+const mongoose = require('mongoose');
+
+const RoleDb = require('./models/Role');
+
 bot.commands = new Discord.Collection();
 
 const active = new Map();
@@ -11,16 +15,22 @@ const active = new Map();
 const Role = new Map();
 
 const config = {
-    prefix: "!",
+    prefix: "-",
     id:"322089201455595530",
     active: active, 
     defaultRole: Role,
 };
 
-
 let prefix = config.prefix;
 
-console.log(config);
+mongoose.connect('mongodb+srv://rubi:r2yvxF7FDaLT0xic@discord-bot-92dui.mongodb.net/discord', {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+});
+
+mongoose.connection.on('connected', () => {
+    console.log("*Connected to MongoDB*");
+});
 
 fs.readdir("./commands/", (err,files) => {
     if(err) console.log(err);
@@ -76,8 +86,8 @@ bot.on("guildMemberAdd", (member) => {
     if(!role) return;
     else member.addRole(role.defaultRole);
 })
-
 bot.on('message', (msg) => {
+    start(msg);
     if(msg.author == bot.author) return;
     let messageArray = msg.content.split(" ");
     let cmd = messageArray[0];
@@ -85,9 +95,21 @@ bot.on('message', (msg) => {
     if(cmd.startsWith(config.prefix))
     {
         let commandFile = bot.commands.get(cmd.slice(prefix.length));
+        console.log("Command " + cmd.slice(prefix.length) + " executed!");
         if(commandFile) commandFile.run (bot,msg,args,config);
         msg.delete(1000);
     }
 })
 
+async function start(msg) {
+    let data = config.defaultRole.get(msg.guild.id) || {};
+    if(!data.defaultRole) {
+        let defaultRole = await RoleDb.findOne({guild: msg.guild.id});
+        data.defaultRole = msg.guild.roles.find(x => x.name == defaultRole.role);
+        config.defaultRole.set(msg.guild.id,data);
+        console.log(config.defaultRole.get(msg.guild.id).defaultRole);
+    }
+}
+
 bot.login(process.env.Token);
+

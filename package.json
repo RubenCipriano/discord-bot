@@ -10,6 +10,7 @@
   "dependencies": {
     "discord.js": "^11.6.4",
     "ffmpeg": "0.0.4",
+    "mongoose": "^5.9.11",
     "opusscript": "0.0.7",
     "yt-search": "^0.4.1",
     "ytdl": "^1.1.0",

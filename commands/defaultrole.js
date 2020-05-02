@@ -1,5 +1,11 @@
 const Discord = require('discord.js');
+const RoleDb = require('../models/Role');
+
 module.exports.run = async(bot,message,args,ops) => {
+    let server = {
+      guild: message.guild.id,
+  };
+
   if(!message.member.hasPermission('KICK_MEMBERS')) return message.channel.send(`Não tens permissão para fazer isto!`).then(msg => msg.delete(5000)).catch();
   let data = ops.defaultRole.get(message.guild.id) || {};
   args = args.join(" ");
@@ -23,6 +29,24 @@ module.exports.run = async(bot,message,args,ops) => {
     {
       data.defaultRole = role;
       ops.defaultRole.set(message.guild.id,data);
+
+      let roleDbAdd = {
+        guild: message.guild.id,
+        role: role.name
+      };
+      
+      let RoleServer = await RoleDb.findOne(server);
+
+      if(RoleServer == null){
+        RoleServer = new RoleDb(roleDbAdd);
+        RoleServer.save(RoleServer);
+      }
+      else{
+        RoleServer.updateOne(roleDbAdd);
+        RoleServer.save();
+      }
+        
+
       let embed = new Discord.RichEmbed()
         .setColor('#ff0000')
         .setAuthor('Rub1Bot', message.guild.iconURL)

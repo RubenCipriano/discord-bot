@@ -1,10 +1,17 @@
 const ytdl = require('ytdl-core');
 const Discord = require('discord.js');
-const ServerPlayList = require('../playlists.json');
+
+const PlaylistModel = require('../models/Playlist');
+
 let PlayListSV = info = null;
+
 module.exports.run = async(bot,message,args,ops) => {
+      let server = {
+        guild: message.guild.id,
+    };
+
     if(!message.member.voiceChannel) return message.channel.send('Não se encontra em um canal de Audio!').then(msg => msg.delete(10000)).catch();
-    if(!args[0]) PlayListSV = ServerPlayList[message.guild.id];
+    if(!args[0]) PlayListSV = await PlaylistModel.findOne(server);
     if(!args[0] && !PlayListSV) return message.channel.send(`Não existe uma Playlist Default!`).then(msg => msg.delete(5000)).catch();
     if(!/[^a-zA-Z0-9]/.test(args[0]) && args[0]) {
       let commandFile = require("./search.js");
@@ -22,12 +29,12 @@ module.exports.run = async(bot,message,args,ops) => {
       if(!data.queue) data.queue = [];
       data.guildID = message.guild.id;
       if(PlayListSV && !args[0]) {
-        for(var i = 0; i < PlayListSV.Songs.length; i++){
+        for(var i = 0; i < PlayListSV.songs.length; i++){
           data.queue.push({
-            songTitle: PlayListSV.Songs[i].songTitle,
-            requester: PlayListSV.Songs[i].requester,
-            url: PlayListSV.Songs[i].url,
-            announceChannel: PlayListSV.Songs[i].announceChannel
+            songTitle: PlayListSV.songs[i].songTitle,
+            requester: PlayListSV.songs[i].requester,
+            url: PlayListSV.songs[i].url,
+            announceChannel: PlayListSV.songs[i].announceChannel
           });
         }
       }
