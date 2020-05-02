@@ -97,7 +97,6 @@ bot.on('message', (msg) => {
         let commandFile = bot.commands.get(cmd.slice(prefix.length));
         console.log("Command " + cmd.slice(prefix.length) + " executed!");
         if(commandFile) commandFile.run (bot,msg,args,config);
-        msg.delete(1000);
     }
 })
 
@@ -105,11 +104,14 @@ async function start(msg) {
     let data = config.defaultRole.get(msg.guild.id) || {};
     if(!data.defaultRole) {
         let defaultRole = await RoleDb.findOne({guild: msg.guild.id});
-        data.defaultRole = msg.guild.roles.find(x => x.name == defaultRole.role);
-        config.defaultRole.set(msg.guild.id,data);
-        console.log(config.defaultRole.get(msg.guild.id).defaultRole);
+        if(defaultRole != null)
+        {
+            data.defaultRole = msg.guild.roles.find(x => x.name == defaultRole.role);
+            config.defaultRole.set(msg.guild.id,data);
+            console.log(config.defaultRole.get(msg.guild.id).defaultRole);
+        }
     }
 }
 
-bot.login(process.env.Token);
+bot.login("NTUxODI1MTU0MTA4MjkzMTQw.XewujA.8goCcGWoeTibPu8e7dHhjjzbj5E");
 

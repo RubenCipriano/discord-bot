@@ -5,11 +5,20 @@ module.exports.run = async(bot,message,args,ops) => {
     let server = {
       guild: message.guild.id,
   };
-
+  args = args.join(" ");
   if(!message.member.hasPermission('KICK_MEMBERS')) return message.channel.send(`Não tens permissão para fazer isto!`).then(msg => msg.delete(5000)).catch();
   let data = ops.defaultRole.get(message.guild.id) || {};
-  args = args.join(" ");
-  if(!data.defaultRole && !args) return message.channel.send(`Não existe uma Role Default Neste Servidor!`).then(m => m.delete(10000)).catch();
+  if(!data.defaultRole && !args) {
+      let defaultRole = await RoleDb.findOne({guild: message.guild.id});
+      if(defaultRole != null)
+      {
+          data.defaultRole = message.guild.roles.find(x => x.name == defaultRole.role);
+          ops.defaultRole.set(message.guild.id,data);
+          console.log(ops.defaultRole.get(message.guild.id).defaultRole);
+      }
+      else
+      return message.channel.send(`Não existe uma Role Default Neste Servidor!`).then(m => m.delete(10000)).catch();
+  }
   if(!args) {
     let embed = new Discord.RichEmbed()
       .setColor('#ff0000')
