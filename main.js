@@ -113,5 +113,5 @@ async function start(msg) {
     }
 }
 
-bot.login("NTUxODI1MTU0MTA4MjkzMTQw.XewujA.8goCcGWoeTibPu8e7dHhjjzbj5E");
+bot.login(process.env.Token);
 
