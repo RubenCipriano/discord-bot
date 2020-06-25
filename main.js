@@ -113,5 +113,5 @@ async function start(msg) {
     }
 }
 
-bot.login(process.env.TOKEN);
+bot.login(process.env.Token);
 
