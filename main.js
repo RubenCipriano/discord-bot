@@ -15,7 +15,7 @@ const active = new Map();
 const Role = new Map();
 
 const config = {
-    prefix: "-",
+    prefix: "!!",
     id:"322089201455595530",
     active: active, 
     defaultRole: Role,
@@ -113,5 +113,5 @@ async function start(msg) {
     }
 }
 
-bot.login(process.env.Token);
+bot.login(process.env.TOKEN);
 

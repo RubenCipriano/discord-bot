@@ -78,15 +78,18 @@ module.exports.run = async(bot,message,args,ops) => {
 async function play(bot, ops, data) {
   console.log('Song!\n' + data.queue[0].url);
   data.dispatcher = await data.connection.playStream(ytdl(data.queue[0].url, {filter: 'audioonly'}));
+  console.log(data.dispatcher);
   data.dispatcher.guildID = data.guildID;
   data.dispatcher.on('end',function() {
       if(data.loop == true)
         play(bot,ops,data);
       else
+      {
         if(data.loopqueue == true)
-          finishLoop(bot,ops,this);
-        else
-          finish(bot,ops,this);
+        finishLoop(bot,ops,this);
+      else
+        finish(bot,ops,this);
+      }
   });
 }
 
@@ -105,7 +108,6 @@ function finish(bot, ops, dispatcher) {
 
 function finishLoop(bot, ops, dispatcher) {
   let fetched = ops.active.get(dispatcher.guildID);
-  console.log(fetched.queue);
   fetched.queue.push(fetched.queue[0]);
   fetched.queue.shift();
   if(fetched.queue.length > 0){

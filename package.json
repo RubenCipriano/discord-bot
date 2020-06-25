@@ -11,10 +11,11 @@
     "discord.js": "^11.6.4",
     "ffmpeg": "0.0.4",
     "mongoose": "^5.9.11",
-    "node-opus": "^0.3.3",
+    "node-gyp": "^7.0.0",
+    "opusscript": "0.0.7",
+    "rebuild": "^0.1.2",
     "yt-search": "^0.4.1",
-    "ytdl": "^1.1.0",
-    "ytdl-core": "^1.0.3"
+    "ytdl-core": "^2.1.7"
   },
   "description": ""
 }
